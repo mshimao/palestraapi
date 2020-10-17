@@ -1,0 +1,251 @@
+{
+	"info": {
+		"_postman_id": "4d55e5d7-2577-4cbc-837f-c18c9489c728",
+		"name": "Treinamento API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "35745f4e-a82c-442c-aecb-b57456c8fcd3",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"    var jsonData = pm.response.json();\r",
+							"\r",
+							"    pm.environment.set(\"Token\", jsonData.AccessToken);\r",
+							"    postman.setNextRequest(\"GetList\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"Login\": \"userteste\",\r\n  \"Password\": \"userteste\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost/ProjetoPadrao.Web/api/Login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"ProjetoPadrao.Web",
+						"api",
+						"Login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetList",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "5109a934-0e87-4a8a-acd0-5ed5b0d4b80c",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.$values.length).to.equal(1);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{Token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost/ProjetoPadrao.Web/api/Cliente",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"ProjetoPadrao.Web",
+						"api",
+						"Cliente"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Insert Cliente",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "0a1a2fbe-6bde-4819-a671-e9afa997a8c3",
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.environment.set(\"idcliente\", jsonData.Id);\r",
+							"    postman.setNextRequest(\"GetListAposInsert\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{Token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"Nome\": \"Cliente teste\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost/ProjetoPadrao.Web/api/Cliente",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"ProjetoPadrao.Web",
+						"api",
+						"Cliente"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetListAposInsert",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "5109a934-0e87-4a8a-acd0-5ed5b0d4b80c",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.$values.length).to.equal(2);\r",
+							"    postman.setNextRequest(\"DeleteCliente\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{Token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost/ProjetoPadrao.Web/api/Cliente",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"ProjetoPadrao.Web",
+						"api",
+						"Cliente"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DeleteCliente",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "2cc49e1c-88fb-4c92-8e75-fb43093a9371",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{Token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost/ProjetoPadrao.Web/api/Cliente/{{idcliente}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"ProjetoPadrao.Web",
+						"api",
+						"Cliente",
+						"{{idcliente}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

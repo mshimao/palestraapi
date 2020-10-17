@@ -1,0 +1,1 @@
+newman run TreinamentoAPI.postman_collection.json
